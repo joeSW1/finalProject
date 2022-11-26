@@ -29,7 +29,7 @@ function SigninBox({navigation}) {
 
   return (
     <View style={styles.loginContainer}>
-      <Text style={styles.loginHeaderText}>Sign In</Text>
+      <Text style={{fontWeight: '800', fontSize: '20'}}>Sign In</Text>
       <View style={styles.loginRow}>
         <View style={styles.loginLabelContainer}>
           <Text style={styles.loginLabelText}>Email: </Text>
@@ -63,6 +63,7 @@ function SigninBox({navigation}) {
       </View>
       <View style={styles.loginRow}>
         <Button
+        color="#000000"
           onPress={async () => {
             try {
               await signInWithEmailAndPassword(auth, email, password);
@@ -86,7 +87,7 @@ function SignupBox({navigation}) {
 
   return (
     <View style={styles.loginContainer}>
-      <Text style={styles.loginHeaderText}>Sign Up</Text>
+      <Text style={{fontWeight: '800', fontSize: '20'}}>Sign Up</Text>
       <View style={styles.loginRow}>
         <View style={styles.loginLabelContainer}>
           <Text style={styles.loginLabelText}>Display Name: </Text>
@@ -136,10 +137,11 @@ function SignupBox({navigation}) {
       </View>
       <View style={styles.loginRow}>
         <Button
+          color="#000000"
           onPress={async () => {
             try {
               const userCred = await createUserWithEmailAndPassword(auth, email, password);
-              await setDoc(doc(db, 'users', userCred.user.uid), {displayName: displayName});
+              await setDoc(doc(db, 'users', userCred.user.uid), {displayName: displayName, uid: userCred.user.uid});
             } catch(error) {
               Alert.alert("Sign Up Error", error.message,[{ text: "OK" }])
             }
@@ -176,24 +178,27 @@ function LoginScreen({navigation}) {
         :
           <SignupBox/>
         }
-        </View>
-      <View styles={styles.modeSwitchContainer}>
+        <View style={styles.modeSwitchContainer}>
         { loginMode ? 
           <Text>New user? 
             <Text 
               onPress={()=>{setLoginMode(!loginMode)}} 
               style={{color: 'blue'}}> Sign up </Text> 
-            instead!
+            instead
           </Text>
         :
           <Text>Returning user? 
             <Text 
               onPress={()=>{setLoginMode(!loginMode)}} 
               style={{color: 'blue'}}> Sign in </Text> 
-            instead!
+            instead
           </Text>
         }
       </View>
+        </View>
+      
+  
+      
     </View>
   );
 }
@@ -202,55 +207,53 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'left',
+    justifyContent: 'flex-start',
   },
   bodyContainer: {
-    flex: 0.5,
-    justifyContent: 'center',
-    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'left',
     //backgroundColor: 'tan'
   },
   loginContainer: {
-    flex: 1,
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    alignItems: 'left',
     width: '100%',
-    paddingTop: '30%',
-    paddingBottom: '10%',
+    paddingTop: '05%',
+    //paddingBottom: '10%',
     //backgroundColor: 'lightblue'
   },
   loginHeader: {
     width: '100%',
     padding: '3%',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'left',
+    alignItems: 'left',
     //backgroundColor: 'tan'
   },
   loginHeaderText: {
-    fontSize: 24,
     color: 'black',
     paddingBottom: '5%'
   },
   loginRow: {
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    alignItems: 'left',
     width: '100%',
     //backgroundColor: 'pink',
-    padding: '3%'
+    padding: '0%'
   },
   loginLabelContainer: {
-    flex: 0.3,
-    justifyContent: 'center',
-    alignItems: 'flex-end'
+    flex: 0.4,
+    justifyContent: 'left',
+    alignItems: 'flex'
   },
   loginLabelText: {
     fontSize: 18
   },
   loginInputContainer: {
     flex: 0.5,
-    justifyContent: 'center',
+    justifyContent: 'left',
     alignItems: 'flex-start',
     width: '100%'
   },
@@ -263,22 +266,22 @@ const styles = StyleSheet.create({
     padding: '2%'
   },
   modeSwitchContainer:{
-    flex: 0.2,
-    justifyContent: 'center',
-    alignItems: 'center',
+    //flex: 0.1,
+    //justifyContent: 'flex-start',
+    //alignItems: 'left',
     width: '100%',
-    backgroundColor: 'pink'
+    paddingTop: '2%'
   },
   loginButtonRow: {
     width: '100%',
-    justifyContent: 'center', 
-    alignItems: 'center'
+    justifyContent: 'flex-start', 
+    alignItems: 'left'
   },
   listContainer: {
     flex: 0.7, 
     backgroundColor: '#ccc',
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: 'left',
+    justifyContent: 'flex-start',
     width: '100%', 
   },
 });

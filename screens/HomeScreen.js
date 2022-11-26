@@ -24,6 +24,7 @@ function HomeScreen({navigation}) {
   const [users, setUsers] = useState([]);
 
   useEffect(()=>{
+    console.log(currUserId);
     onSnapshot(collection(db, 'users'), qSnap => {
       let newUsers = [];
       qSnap.forEach(docSnap => {
@@ -42,29 +43,35 @@ function HomeScreen({navigation}) {
 
   return (
     <View style={styles.container}>
-      <Text style={{padding:'5%'}}>
-        Hi, {displayName}! Say hello to your little friends:
+      <Text style={{paddingTop:'5%', fontWeight: '800', fontSize: '20'}}>
+        Home Screen
       </Text>
       <View style={styles.listContainer}>
         <FlatList
-          data={users.filter(u=>u.key!==currUserId)}
+          data={users.filter(u=>u.uid==currUserId)}
           renderItem={({item}) => {
             return (
               <View>
-                <Text>{item.displayName}</Text>
+                <Text style={{fontSize: 18}}>Current User: {item.displayName}</Text>
               </View>
             );
           }}
         />
+        
       </View>
-      <Button
-        onPress={async () => {
-          await signOut(auth);
-          navigation.navigate('Login');
-        }}
-      >
-        Now sign out!
-      </Button>
+      <View style={styles.buttonContainer}>
+        <Button
+          color="#000000"
+          onPress={async () => {
+            await signOut(auth);
+            navigation.navigate('Login');
+          }}
+          style={{fontSize: 18}}
+
+        >
+          Sign out
+        </Button>
+      </View>
     </View>
   );
 }
@@ -72,13 +79,20 @@ function HomeScreen({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'flex-start',
+    alignItems: 'left',
+
+    
   },
   listContainer: {
-    flex: 0.3,
-    justifyContent: 'center',
-    alignItems: 'center'
+    flex: 0.05,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  buttonContainer: {
+    justifyContent: 'left',
+    alignItems: 'left',
+    width: '100%'
   }
 });
 
